@@ -1,9 +1,6 @@
 package de.gbsschulen.wagenhuber.wawi.rest;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class ArtikelService {
@@ -39,8 +36,16 @@ public class ArtikelService {
     }
 
     public List<Artikel> getArtikelHigherThanPrice(double vkpreis) {
-        TypedQuery<Artikel> typedQuery = em.createQuery("SELECT a from Artikel a where a.vkpreis > {$vkpreis}", Artikel.class);
+        //Auch mit JPA können klassische SQL-Statements verwendet werden:
+        //Query nativeQuerry = em.createNamedQuery("select * from artikel where vkpreis > " + vkpreis);
+        //return nativeQuerry.getResultList();
+
+        //Lösung mittels TypedQuerry
+        TypedQuery<Artikel> typedQuery = em.createQuery("SELECT a from Artikel a where a.vkpreis > " + vkpreis, Artikel.class);
         return typedQuery.getResultList();
+
+
+
     }
 
 
